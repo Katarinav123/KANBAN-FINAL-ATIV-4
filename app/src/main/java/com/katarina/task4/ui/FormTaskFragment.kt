@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.katarina.task4.R
 import com.katarina.task4.databinding.FragmentFormTaskBinding
 import com.katarina.task4.util.initToolbar
+import com.katarina.task4.util.showBottomSheet
 
 class FormTaskFragment : Fragment() {
 
@@ -41,7 +43,7 @@ class FormTaskFragment : Fragment() {
         if (description.isNotBlank()) {
             Toast.makeText(requireContext(), "Tudo OK!", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(requireContext(), "Preencha uma descrição!", Toast.LENGTH_SHORT).show()
+            showBottomSheet(message = R.string.description_empty_form_task_fragment)
         }
     }
 

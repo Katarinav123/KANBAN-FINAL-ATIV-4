@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.katarina.task4.R
 import com.katarina.task4.databinding.FragmentRegisterBinding
 import com.katarina.task4.util.initToolbar
+import com.katarina.task4.util.showBottomSheet
 
 
 class RegisterFragment : Fragment() {
@@ -46,10 +47,10 @@ class RegisterFragment : Fragment() {
             if (senha.isNotBlank()) {
                 Toast.makeText(requireContext(), "Tudo OK!", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Preencha uma senha!", Toast.LENGTH_SHORT).show()
+                showBottomSheet(message = R.string.password_empty_register_fragment)
             }
         } else {
-            Toast.makeText(requireContext(), "Preencha um email válido!", Toast.LENGTH_SHORT).show()
+            showBottomSheet(message = R.string.email_empty_register_fragment)
         }
     }
 
@@ -59,4 +60,3 @@ class RegisterFragment : Fragment() {
     }
 
 }
-//testee
