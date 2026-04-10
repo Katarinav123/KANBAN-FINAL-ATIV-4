@@ -29,9 +29,8 @@ class LoginFragment : Fragment() {
         initListener()
     }
     private fun initListener() {
-
         binding.buttonLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_global_homeFragment)
+            validateData() // Chama a função que verifica os campos
         }
 
         binding.btnRegistrar.setOnClickListener {
@@ -42,13 +41,14 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_loginFragment_to_recoverAccountFragment)
         }
     }
+
     private fun validateData() {
         val email = binding.edittextEmail.text.toString().trim()
         val senha = binding.edittextSenha.text.toString().trim()
 
         if (email.isNotBlank()) {
             if (senha.isNotBlank()) {
-                // Comentário temporário somente para testar a validação dos dados
+                // Agora sim, a navegação só ocorre se email e senha não estiverem vazios
                 findNavController().navigate(R.id.action_global_homeFragment)
             } else {
                 Toast.makeText(requireContext(), "Preencha a senha!", Toast.LENGTH_SHORT).show()
@@ -57,8 +57,6 @@ class LoginFragment : Fragment() {
             Toast.makeText(requireContext(), "Preencha seu email!", Toast.LENGTH_SHORT).show()
         }
     }
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
