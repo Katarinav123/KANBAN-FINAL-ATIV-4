@@ -15,4 +15,10 @@
     <string name="password_empty_register_fragment">Preencha uma senha!</string>
     <string name="email_empty_register_fragment">Preencha um email válido!</string>
     <string name="description_empty_form_task_fragment">Preencha uma descrição!</string>
+
+    <string name="text_title_dialog_confira_logout">Deseja sair da sua conta?</string>
+    <string name="text_button_dialog_confirm_logout">Confirmar</string>
+    <string name="text_message_dialog_confirm_logout">Aperte em confirmar para sair da sua conta</string>
+
+    <string name="text_message_recover_account_fragment">Se o e-mail informado estiver correto, um link de recuperação foi enviado.</string>
 </resources>

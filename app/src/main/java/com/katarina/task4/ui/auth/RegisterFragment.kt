@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.google.firebase.auth.FirebaseAuth
 import com.katarina.task4.R
 import com.katarina.task4.databinding.FragmentRegisterBinding
@@ -49,7 +50,8 @@ class RegisterFragment : Fragment() {
 
         if (email.isNotBlank()) {
             if (senha.isNotBlank()) {
-                Toast.makeText(requireContext(), "Tudo OK!", Toast.LENGTH_SHORT).show()
+                binding.progressBar.isVisible = true
+                registerUser(email, senha)
             } else {
                 showBottomSheet(message = R.string.password_empty_register_fragment)
             }
@@ -68,6 +70,7 @@ class RegisterFragment : Fragment() {
                     if (task.isSuccessful) {
                         findNavController().navigate(R.id.action_global_homeFragment)
                     } else {
+                        binding.progressBar.isVisible = false
                         Toast.makeText(
                             requireContext(),
                             task.exception?.message,
