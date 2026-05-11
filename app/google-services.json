@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "706804228419",
+    "project_id": "taskapp-b8ef5",
+    "storage_bucket": "taskapp-b8ef5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706804228419:android:759841468e40d8e56b0ff6",
+        "android_client_info": {
+          "package_name": "com.katarina.task4"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnfbLP312IKVG-Ts6xLdMIpIa9fPQrfqQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

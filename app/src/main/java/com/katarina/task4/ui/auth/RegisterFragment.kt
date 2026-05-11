@@ -6,16 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.auth.FirebaseAuth
 import com.katarina.task4.R
 import com.katarina.task4.databinding.FragmentRegisterBinding
 import com.katarina.task4.util.initToolbar
 import com.katarina.task4.util.showBottomSheet
+import androidx.navigation.fragment.findNavController
+
 
 
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +58,32 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    private fun registerUser(email: String, password: String) {
+
+        try {
+            val auth = FirebaseAuth.getInstance()
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        findNavController().navigate(R.id.action_global_homeFragment)
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            task.exception?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireContext(),
+                e.message.toString(),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
