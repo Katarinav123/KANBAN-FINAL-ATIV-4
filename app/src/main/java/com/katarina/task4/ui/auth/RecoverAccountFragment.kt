@@ -53,7 +53,7 @@ class RecoverAccountFragment : Fragment() {
             binding.progressBar.isVisible = true
             recoverAccountUser(email)
         } else {
-            showBottomSheet(message = R.string.email_empty)
+            showBottomSheet(message = getString(R.string.email_empty))
         }
     }
 

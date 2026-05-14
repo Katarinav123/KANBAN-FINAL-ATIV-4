@@ -53,10 +53,10 @@ class RegisterFragment : Fragment() {
                 binding.progressBar.isVisible = true
                 registerUser(email, senha)
             } else {
-                showBottomSheet(message = R.string.password_empty_register_fragment)
+                showBottomSheet(message = getString(R.string.password_empty_register_fragment))
             }
         } else {
-            showBottomSheet(message = R.string.email_empty_register_fragment)
+            showBottomSheet(message = getString(R.string.email_empty_register_fragment))
         }
     }
 

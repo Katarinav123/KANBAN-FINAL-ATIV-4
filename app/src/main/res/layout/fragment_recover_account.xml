@@ -66,12 +66,10 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSend"
+                style="@style/ButtonTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Enviar"
-                android:textColor="@color/color_default"
-                app:backgroundTint="@color/colorPrimaryVariant"
-                android:background="@drawable/bg_btn"
                 android:layout_marginTop="16dp"/>
 
             <ProgressBar

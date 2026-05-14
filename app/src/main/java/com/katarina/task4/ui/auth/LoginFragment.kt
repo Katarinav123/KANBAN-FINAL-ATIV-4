@@ -58,10 +58,10 @@ class LoginFragment : Fragment() {
                 // Agora sim, a navegação só ocorre se email e senha não estiverem vazios
                 findNavController().navigate(R.id.action_global_homeFragment)
             } else {
-                showBottomSheet(message = R.string.password_empty)
+                showBottomSheet(message = getString(R.string.password_empty))
             }
         } else {
-            showBottomSheet(message = R.string.email_empty)
+            showBottomSheet(message = getString(R.string.email_empty))
         }
     }
     private fun loginUser(email: String, password: String) {

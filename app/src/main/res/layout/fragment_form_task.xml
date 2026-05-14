@@ -107,14 +107,11 @@
         </RadioGroup>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSave"
+            style="@style/ButtonTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/bg_btn"
             android:text="Salvar"
-            android:textAllCaps="false"
-            android:textColor="@color/color_default"
-            app:backgroundTint="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
