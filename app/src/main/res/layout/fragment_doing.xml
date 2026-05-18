@@ -7,4 +7,25 @@
     android:layout_height="match_parent"
     tools:context=".ui.DoingFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTask"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:listitem="@layout/item_task"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:background="@color/color_default"
+        android:backgroundTint="@color/color_details"
+        android:contentDescription="Add task"
+        android:src="@drawable/add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

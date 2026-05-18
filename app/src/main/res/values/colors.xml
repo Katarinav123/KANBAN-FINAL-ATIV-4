@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00BCD4</color>          <!-- Ciano principal -->
-    <color name="colorPrimaryVariant">#008BA3</color>   <!-- Ciano escuro -->
-    <color name="colorAccent">#4DD0E1</color>           <!-- Ciano claro -->
-    <color name="color_default">#00BCD4</color>         <!-- Substitui o antigo color_default -->
+    <color name="colorPrimary">#FF6F61</color>
+    <color name="colorPrimaryVariant">#D34E41</color>
+    <color name="colorAccent">#FFA094</color>
+    <color name="color_default">#FF6F61</color> <!-- Substitui o antigo color_default -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
     <color name="color_delete">#FF4C3B</color>
     <color name="color_details">#04D5C1</color>
+    <color name="color_status_todo">#FF3D00</color>
+    <color name="color_status_done">#4CAF50</color>
 
 
 

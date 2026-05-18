@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.auth.LoginFragment"
-    android:background="@color/colorAccent">
+  >
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -23,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/email_text"
-            android:textColor="@color/colorPrimaryVariant"/>
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/edittextEmail"
@@ -38,8 +39,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/password_text"
-            android:textColor="@color/colorPrimaryVariant"
-            android:layout_marginTop="16dp"/>
+            android:textColor="@color/white"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/edittextSenha"
@@ -57,7 +59,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Login"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,8 +75,9 @@
                 android:layout_height="wrap_content"
                 android:text="Criar Conta"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:textAlignment="textStart"
-                android:textColor="@color/colorPrimaryVariant"/>
+                android:textColor="@color/colorAccent"/>
 
             <TextView
                 android:id="@+id/btnRecover"
@@ -81,7 +86,8 @@
                 android:text="Recuperar Conta"
                 android:layout_weight="1"
                 android:textAlignment="textEnd"
-                android:textColor="@color/colorPrimaryVariant"/>
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"/>
         </LinearLayout>
         <ProgressBar
             android:id="@+id/progressBar"

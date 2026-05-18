@@ -57,8 +57,8 @@ class HomeFragment : Fragment() {
         binding.viewPager.adapter = pagerAdapter
 
         pagerAdapter.addFragment(TodoFragment(), R.string.status_task_todo)
-        pagerAdapter.addFragment(TodoFragment(), R.string.status_task_doing)
-        pagerAdapter.addFragment(TodoFragment(), R.string.status_task_done)
+        pagerAdapter.addFragment(DoingFragment(), R.string.status_task_doing)
+        pagerAdapter.addFragment(DoneFragment(), R.string.status_task_done)
 
         binding.viewPager.offscreenPageLimit = pagerAdapter.itemCount
 
