@@ -19,6 +19,7 @@ import com.katarina.task4.R
 import com.katarina.task4.data.model.Status
 import com.katarina.task4.data.model.Task
 import com.katarina.task4.databinding.FragmentFormTaskBinding
+import com.katarina.task4.util.FirebaseHelper
 import com.katarina.task4.util.initToolbar
 import com.katarina.task4.util.showBottomSheet
 import java.text.Normalizer
@@ -109,11 +110,8 @@ class FormTaskFragment : Fragment() {
         if (description.isNotBlank()){
             binding.progressBar.isVisible = true
 
-            if (newTask) {
-                task = Task()
-                task.id = reference.database.reference.push().key ?: ""
+            if (newTask) task = Task()
 
-            }
             task.description = description
             task.status = status
 
@@ -125,8 +123,9 @@ class FormTaskFragment : Fragment() {
     private fun saveTask(){
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         android.util.Log.d("FormTask", "UID direto: $uid")
+        val userId = FirebaseHelper.getIdUser()
 
-        if (uid == null) {
+        if (userId == null) {
             binding.progressBar.isVisible = false
             Toast.makeText(requireContext(), "Usuário não logado!", Toast.LENGTH_LONG).show()
             return
@@ -135,9 +134,9 @@ class FormTaskFragment : Fragment() {
         android.util.Log.d("FormTask", "UID ao salvar: $uid")
         android.util.Log.d("FormTask", "Task: ${task.id} - ${task.description}")
 
-        reference
+        FirebaseHelper.getDatabase()
             .child("task")
-            .child(uid)
+            .child(userId)
             .child(task.id)
             .setValue(task).addOnCompleteListener { result ->
                 if(result.isSuccessful){

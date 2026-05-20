@@ -23,6 +23,7 @@ import com.katarina.task4.ui.adapter.TaskAdapter
 import com.katarina.task4.data.model.Task
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
+import com.katarina.task4.util.FirebaseHelper
 import com.katarina.task4.util.showBottomSheet
 
 
@@ -129,9 +130,9 @@ class TodoFragment : Fragment() {
 
 
     private fun getTask() {
-        reference
+        FirebaseHelper.getDatabase()
             .child("task")
-            .child(auth.currentUser?.uid ?: "")
+            .child(FirebaseHelper.getIdUser())
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {
                     val taskList = mutableListOf<Task>()
@@ -158,9 +159,9 @@ class TodoFragment : Fragment() {
             })
     }
     private fun deleteTask(task: Task){
-        reference
+        FirebaseHelper.getDatabase()
             .child("task")
-            .child(auth.currentUser?.uid ?: "")
+            .child(FirebaseHelper.getIdUser())
             .child(task.id)
             .removeValue().addOnCompleteListener { result ->
                 if(result.isSuccessful){

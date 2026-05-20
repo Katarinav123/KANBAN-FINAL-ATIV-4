@@ -11,14 +11,15 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.katarina.task4.R
 import com.katarina.task4.databinding.FragmentLoginBinding
+import com.katarina.task4.ui.BaseFragment
+import com.katarina.task4.util.FirebaseHelper
 import com.katarina.task4.util.showBottomSheet
 
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment(){
 
     private var _binding: FragmentLoginBinding? =null
     private val binding get() = _binding!!
 
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +33,6 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        auth = FirebaseAuth.getInstance()
         initListener()
     }
     private fun initListener() {
@@ -55,6 +55,7 @@ class LoginFragment : Fragment() {
 
         if (email.isNotBlank()) {
             if (senha.isNotBlank()) {
+                hideKeyboard()
                 binding.progressBar.isVisible = true
                 loginUser(email, senha) // ← chama o login de verdade!
             } else {
@@ -66,19 +67,17 @@ class LoginFragment : Fragment() {
     }
     private fun loginUser(email: String, password: String) {
         try {
-            auth.signInWithEmailAndPassword(email, password)
+            FirebaseHelper.getAuth().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         // Conseguiu autenticar com sucesso
                         findNavController().navigate(R.id.action_global_homeFragment)
                     } else {
-                        // Ocorreu falha na autenticação
                         binding.progressBar.isVisible = false
-                        Toast.makeText(
-                            requireContext(),
-                            task.exception?.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        // Log para ver a mensagem exata
+                        android.util.Log.e("LoginFragment", "Erro login: ${task.exception?.message}")
+                        android.util.Log.e("LoginFragment", "Erro completo: ${task.exception?.toString()}")
+                        showBottomSheet(message = getString(FirebaseHelper.validError(task.exception?.message.toString())))
                     }
                 }
         } catch (e: Exception) {

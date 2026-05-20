@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.firebase.auth.FirebaseAuth
 import com.katarina.task4.R
 import com.katarina.task4.databinding.FragmentRecoverAccountBinding
+import com.katarina.task4.util.FirebaseHelper
 import com.katarina.task4.util.initToolbar
 import com.katarina.task4.util.showBottomSheet
 
@@ -69,12 +71,7 @@ class RecoverAccountFragment : Fragment() {
                             message = getString(R.string.text_message_recover_account_fragment)
                         )
                     } else {
-                        // Se o Firebase retornar erro (ex: e-mail não existe)
-                        Toast.makeText(
-                            requireContext(),
-                            task.exception?.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showBottomSheet(message = getString(FirebaseHelper.validError(task.exception?.message.toString())))
                     }
                 }
         } catch (e: Exception) {
