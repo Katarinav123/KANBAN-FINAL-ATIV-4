@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/colorAccent"
+
     tools:context=".ui.auth.RegisterFragment">
 
     <LinearLayout
@@ -37,11 +37,12 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="E-mail"
-                android:textColor="@color/colorPrimaryVariant"/>
+                android:textColor="@color/white"/>
 
             <EditText
                 android:id="@+id/edittextEmail"
@@ -57,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Senha"
-                android:textColor="@color/colorPrimaryVariant"
+                android:textColor="@color/white"
                 android:layout_marginTop="16dp"/>
 
             <EditText
@@ -78,14 +79,24 @@
                 android:text="Cadastrar"
                 android:layout_marginTop="16dp"/>
 
+
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/progressBar"
-                android:indeterminateTint="@color/colorPrimary"
+                android:indeterminateTint="@color/color_default"
                 android:layout_gravity="center"
                 android:visibility="invisible"
                 tools:visibility="visible"/>
+            <TextView
+                android:text="Katarina Veljovic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:textSize="18sp"
+
+                />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
