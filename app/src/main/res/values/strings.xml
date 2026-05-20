@@ -47,7 +47,9 @@
     <string name="text_delete_sucess_form_task_fragment">Deletado com sucesso</string>
     <string name="text_title_dialog_delete">Deseja remover esta tarefa?</string>
     <string name="text_message_dialog_delete">Aperte em confirmar para remover a tarefa</string>
-    <string name="text_button_dialog_confirm">Confirmar</string>"
+    <string name="text_button_dialog_confirm">Confirmar</string>
+    <string name="text_toolbar_form_task_fragment">Editando tarefa...</string>
+    <string name="text_update_sucess_form_task_fragment">Tarefa atualizada</string>"
 
 
 </resources>

@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -19,6 +21,7 @@ import com.katarina.task4.data.model.Task
 import com.katarina.task4.databinding.FragmentFormTaskBinding
 import com.katarina.task4.util.initToolbar
 import com.katarina.task4.util.showBottomSheet
+import java.text.Normalizer
 
 
 class FormTaskFragment : Fragment() {
@@ -31,6 +34,9 @@ class FormTaskFragment : Fragment() {
     private var status: Status = Status.TODO
     private lateinit var reference: DatabaseReference
     private lateinit var auth: FirebaseAuth
+
+    private val viewModel: TaskViewModel by activityViewModels()
+    private val args: FormTaskFragmentArgs by navArgs()
 
 
     override fun onCreateView(
@@ -53,7 +59,33 @@ class FormTaskFragment : Fragment() {
         android.util.Log.d("FormTask", "currentUser UID: ${auth.currentUser?.uid}")
         android.util.Log.d("FormTask", "currentUser email: ${auth.currentUser?.email}")
 
+        getArgs()
         initListener()
+    }
+    private fun getArgs(){
+        args.task.let {
+            if(it != null){
+                this.task = it
+                configTask()
+            }
+        }
+
+    }
+    private fun configTask(){
+        newTask = false
+        status = task.status
+        binding.textToolbar.setText(R.string.text_toolbar_form_task_fragment)
+        binding.editTextDescricao.setText(task.description)
+        setStatus()
+    }
+    private fun setStatus(){
+        val id = when(task.status){
+            Status.TODO -> R.id.rbTodo
+            Status.DOING -> R.id.rbDoing
+            else -> R.id.rbDone
+
+        }
+        binding.radioGroup.check(id)
     }
 
     private fun initListener(){
@@ -77,8 +109,11 @@ class FormTaskFragment : Fragment() {
         if (description.isNotBlank()){
             binding.progressBar.isVisible = true
 
-            if (newTask) task = Task()
-            task.id = reference.database.reference.push().key ?: ""
+            if (newTask) {
+                task = Task()
+                task.id = reference.database.reference.push().key ?: ""
+
+            }
             task.description = description
             task.status = status
 
@@ -116,11 +151,19 @@ class FormTaskFragment : Fragment() {
                     if (newTask){
                         findNavController().popBackStack()
                     }else{
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.text_update_sucess_form_task_fragment,
+                            Toast.LENGTH_SHORT
+
+                        ).show()
+                        viewModel.setUpdateTask(task)
                         binding.progressBar.isVisible = false
                     }
                 } else{
-                    android.util.Log.e("FormTask", "Erro ao salvar: ${result.exception?.message}")
                     binding.progressBar.isVisible = false
+                    val errorMessage = result.exception?.message
+                        ?: getString(R.string.error_generic)
                     showBottomSheet(message = getString(R.string.error_generic))
                 }
             }

@@ -88,6 +88,11 @@
         android:id="@+id/formTaskFragment"
         android:name="com.katarina.task4.ui.FormTaskFragment"
         android:label="fragment_form_task"
-        tools:layout="@layout/fragment_form_task" />
+        tools:layout="@layout/fragment_form_task" >
+        <argument
+            android:name="task"
+            app:argType="com.katarina.task4.data.model.Task"
+            app:nullable="true" />
+    </fragment>
 
 </navigation>
