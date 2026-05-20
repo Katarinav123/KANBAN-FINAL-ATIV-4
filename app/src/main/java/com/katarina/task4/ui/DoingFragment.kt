@@ -33,19 +33,22 @@ class DoingFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initRecyclerViewTask(getTask())
+        initListeners()
+        initRecyclerViewTask()
+        getTask()
     }
     private fun initListeners() {
         binding.floatingActionButton2.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_formTaskFragment)
         }
     }
-    private fun initRecyclerViewTask(taskList: List<Task>){
-        taskAdapter = TaskAdapter(requireContext(),taskList) { task,option -> optionSelected(task,option)}
-        binding.recyclerViewTask.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewTask.setHasFixedSize(true)
-        binding.recyclerViewTask.adapter = taskAdapter
+    private fun initRecyclerViewTask(){
+        taskAdapter = TaskAdapter(requireContext(),) { task,option -> optionSelected(task,option)}
+        with(binding.recyclerViewTask){
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = taskAdapter
+        }
 
     }
     private fun optionSelected(task: Task, option: Int) {
@@ -65,13 +68,14 @@ class DoingFragment : Fragment() {
         }
     }
 
-    private fun getTask() = listOf(
+    private fun getTask(){
+        val taskList = listOf(
         Task("4", "Desenvolvendo a integração com o banco de dados", Status.DOING),
         Task("5", "Criando os testes unitários do Adapter", Status.DOING),
-        Task("6", "Ajustando o layout do item_task no emulador", Status.DOING),
-        Task("7", "Implementando a navegação com NavController", Status.DOING),
-        Task("8", "Configurando a autenticação do Firebase", Status.DOING)
+
     )
+    taskAdapter.submitList(taskList)
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

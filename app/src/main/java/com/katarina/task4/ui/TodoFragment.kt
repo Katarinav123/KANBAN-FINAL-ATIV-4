@@ -6,13 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.katarina.task4.R
 import com.katarina.task4.data.model.Status
 import com.katarina.task4.databinding.FragmentTodoBinding
 import com.katarina.task4.ui.adapter.TaskAdapter
 import com.katarina.task4.data.model.Task
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.database
+import com.katarina.task4.util.showBottomSheet
 
 
 class TodoFragment : Fragment() {
@@ -21,6 +31,9 @@ class TodoFragment : Fragment() {
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
     private lateinit var taskAdapter: TaskAdapter
+
+    private lateinit var reference: DatabaseReference
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,8 +46,12 @@ class TodoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        reference = Firebase.database.reference
+        auth = Firebase.auth
         initListeners()
-        initRecyclerViewTask(getTask())
+        initRecyclerViewTask()
+        getTask()
     }
 
     private fun initListeners() {
@@ -43,17 +60,27 @@ class TodoFragment : Fragment() {
         }
     }
 
-    private fun initRecyclerViewTask(taskList: List<Task>){
-        taskAdapter = TaskAdapter(requireContext(),taskList) { task,option -> optionSelected(task,option)}
-        binding.recyclerViewTask.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewTask.setHasFixedSize(true)
-        binding.recyclerViewTask.adapter = taskAdapter
+    private fun initRecyclerViewTask(){
+        taskAdapter = TaskAdapter(requireContext()) { task,option -> optionSelected(task,option)}
+
+        with(binding.recyclerViewTask){
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = taskAdapter
+        }
 
     }
     private fun optionSelected(task: Task, option: Int) {
         when (option) {
             TaskAdapter.SELECT_REMOVER -> {
-                Toast.makeText(requireContext(), "Removendo ${task.description}", Toast.LENGTH_SHORT).show()
+                showBottomSheet(
+                    titleDialog = R.string.text_title_dialog_delete,
+                    message = getString(R.string.text_message_dialog_delete),
+                    titleButton =R.string.text_button_dialog_confirm,
+                    onClick = {
+                        deleteTask(task)
+                    }
+                )
             }
             TaskAdapter.SELECT_EDIT -> {
                 Toast.makeText(requireContext(), "Editando ${task.description}", Toast.LENGTH_SHORT).show()
@@ -68,13 +95,60 @@ class TodoFragment : Fragment() {
     }
 
 
-    private fun getTask() = listOf(
-        Task("0", "Criar nova tela do app",Status.TODO),
-        Task("1","Validar Informações na tela de login", Status.TODO),
-        Task("2","adicionar nova funcionalidade no app",Status.TODO),
-        Task("3","Salvar token localmente",Status.TODO),
-        Task("2","Criar funcionalidade de logout no app",Status.TODO),
-    )
+    private fun getTask() {
+        reference
+            .child("task")
+            .child(auth.currentUser?.uid ?: "")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    val taskList = mutableListOf<Task>()
+
+                    for (ds in p0.children) {
+                        val task = ds.getValue(Task::class.java) as Task
+                        if(task.status == Status.TODO){
+                            taskList.add(task)}
+                    }
+                    binding.progressBar.isVisible=false
+                    listEmpty(taskList)
+                    taskList.reverse()
+
+                    taskAdapter.submitList(taskList)
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.error_generic,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+    }
+    private fun deleteTask(task: Task){
+        reference
+            .child("task")
+            .child(auth.currentUser?.uid ?: "")
+            .child(task.id)
+            .removeValue().addOnCompleteListener { result ->
+                if(result.isSuccessful){
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.text_delete_sucess_form_task_fragment,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }else{
+                    Toast.makeText(requireContext(), R.string.error_generic, Toast.LENGTH_SHORT).show()
+                }
+                }
+
+    }
+    private fun listEmpty(taskList: List<Task>){
+        binding.textInfo.text = if (taskList.isEmpty()){
+            getString(R.string.text_list_task_empty)
+        }else{
+            ""
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

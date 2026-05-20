@@ -32,8 +32,9 @@ class DoneFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initRecyclerViewTask(getTask())
+        initListeners()
+        initRecyclerViewTask()
+        getTask()
     }
     private fun initListeners() {
         binding.floatingActionButton2.setOnClickListener {
@@ -42,11 +43,13 @@ class DoneFragment : Fragment() {
     }
 
 
-    private fun initRecyclerViewTask(taskList: List<Task>){
-        taskAdapter = TaskAdapter(requireContext(),taskList) { task,option -> optionSelected(task,option)}
-        binding.recyclerViewTask.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewTask.setHasFixedSize(true)
-        binding.recyclerViewTask.adapter = taskAdapter
+    private fun initRecyclerViewTask(){
+        taskAdapter = TaskAdapter(requireContext(),) { task,option -> optionSelected(task,option)}
+        with(binding.recyclerViewTask){
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = taskAdapter
+        }
 
     }
 
@@ -66,13 +69,15 @@ class DoneFragment : Fragment() {
             }
         }
     }
-    private fun getTask() = listOf(
+    private fun getTask(){
+        val taskList = listOf(
         Task("9", "Configuração inicial do projeto realizada", Status.DONE),
         Task("10", "Plugin kotlin-parcelize adicionado no Gradle", Status.DONE),
         Task("11", "Criação da data class Task concluída", Status.DONE),
-        Task("12", "Desenho da tela TodoFragment finalizado", Status.DONE),
-        Task("13", "Paleta de cores coral aplicada com sucesso", Status.DONE)
-    )
+
+        )
+        taskAdapter.submitList(taskList)
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -55,8 +55,8 @@ class LoginFragment : Fragment() {
 
         if (email.isNotBlank()) {
             if (senha.isNotBlank()) {
-                // Agora sim, a navegação só ocorre se email e senha não estiverem vazios
-                findNavController().navigate(R.id.action_global_homeFragment)
+                binding.progressBar.isVisible = true
+                loginUser(email, senha) // ← chama o login de verdade!
             } else {
                 showBottomSheet(message = getString(R.string.password_empty))
             }
